@@ -1,5 +1,4 @@
 import itertools
-import gym
 import numpy as np
 import sklearn.pipeline
 import sklearn.preprocessing
@@ -9,7 +8,7 @@ import random
 import ticket_plotting
 from conversion import train_conversion
 from datetime_utils import date2str
-from predict import get_price_data, predict_order, find_all_tickets
+from predict import get_price_data, predict_order
 from predict import get_search_data
 from user_airline import gen_weekday_airline_dtb
 from user_category import gen_weekday_category_dtb

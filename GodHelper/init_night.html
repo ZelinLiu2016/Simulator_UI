@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>夜晚</title>
+    <link href="{{static_url('css/style.css')}}" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="bookmark" type="image/x-icon" href="static/favicon.ico" mce_href="static/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico" mce_href="static/favicon.ico"/>
+    <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico" mce_href="static/favicon.ico"/>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="{{static_url('js/night.js')}}"></script>
+    <script src="{{static_url('js/utils.js')}}"></script>
+</head>
+<body>
+<div id="init_night">
+    <div>第1夜</div>
+    <div id="wolf">
+        <div>狼人请睁眼</div>
+        <div>上帝输入狼人号码，用小数点分隔<input id='init_wolf'></div>
+        <div>狼人杀人<input id="wolf_kill"></div>
+        <button onclick="init_wolf_finish()">确认</button>
+    </div>
+    <div id="first_blood" style="Display:None">
+        <div>女巫请睁眼</div>
+        <div>上帝输入女巫号码<input id="init_witch"><button onclick="first_blood()">首刀开奖</button></div>
+    </div>
+    <div id="witch" style="Display:None">
+        <div><div id="man_died">今晚他死了，是否使用解药</div><div><input id="use_save" type="radio" name="save" value=1 checked="checked" />是<input id="no_save" type="radio" name="save" value=0 />否</div></div>
+        <div>是否使用毒药<input id="poison"></div>
+        <button onclick="init_witch_finish()">确认</button>
+    </div>
+    <div id="seer" style="Display:None">
+        <div>预言家请睁眼</div>
+        <div>上帝输入预言家号码<input id="init_seer"><button onclick="init_seer()">确认</button></div>
+
+    </div>
+    <div id="seer_check" style="Display:None">
+        <div>今晚你要查验<input id="check_people"><button onclick="seer_check()">查一下</button></div>
+        <div id="check_result">他的身份是这个</div>
+        <button onclick="init_seer_finish()">确认</button>
+    </div>
+    <div id="hunter" style="Display:None">
+        <div>猎人请睁眼</div>
+        <div>上帝输入猎人号码<input id="init_hunter"></div>
+        <button onclick="init_hunter()">确认</button>
+    </div>
+    <div id="hunter_gun" style="Display:None">
+        <div id="hunter_status">今晚你开枪状态</div>
+        <button onclick="init_hunter_finish()">确认</button>
+    </div>
+    <div id="idiot" style="Display:None">
+        <div>白痴请睁眼</div>
+        <div>上帝输入白痴号码<input id="init_idiot"></div>
+        <button onclick="init_idiot_finish()">确认</button>
+    </div>
+    <div id="finish" style="Display:None">
+        <button onclick="finish()">结束今晚</button>
+    </div>
+</div>
+<div id="night" style="Display:None" >
+    <div>第1夜</div>
+    <div id="wolf">
+        <div>狼人请睁眼</div>
+        <div>上帝输入狼人号码，用小数点分隔<input id='init_wolf'></div>
+        <div>狼人杀人<input id="wolf_kill"></div>
+        <button onclick="init_wolf_finish()">确认</button>
+    </div>
+    <div id="first_blood" style="Display:None">
+        <div>女巫请睁眼</div>
+        <div>上帝输入女巫号码<input id="init_witch"><button onclick="first_blood()">首刀开奖</button></div>
+    </div>
+    <div id="witch" style="Display:None">
+        <div><div id="man_died">今晚他死了，是否使用解药</div><div><input id="use_save" type="radio" name="save" value=1 checked="checked" />是<input id="no_save" type="radio" name="save" value=0 />否</div></div>
+        <div>是否使用毒药<input id="poison"></div>
+        <button onclick="init_witch_finish()">确认</button>
+    </div>
+    <div id="seer" style="Display:None">
+        <div>预言家请睁眼</div>
+        <div>上帝输入预言家号码<input id="init_seer"><button onclick="init_seer()">确认</button></div>
+
+    </div>
+    <div id="seer_check" style="Display:None">
+        <div>今晚你要查验<input id="check_people"><button onclick="seer_check()">查一下</button></div>
+        <div id="check_result">他的身份是这个</div>
+        <button onclick="init_seer_finish()">确认</button>
+    </div>
+    <div id="hunter" style="Display:None">
+        <div>猎人请睁眼</div>
+        <div>上帝输入猎人号码<input id="init_hunter"></div>
+        <button onclick="init_hunter()">确认</button>
+    </div>
+    <div id="hunter_gun" style="Display:None">
+        <div id="hunter_status">今晚你开枪状态</div>
+        <button onclick="init_hunter_finish()">确认</button>
+    </div>
+    <div id="idiot" style="Display:None">
+        <div>白痴请睁眼</div>
+        <div>上帝输入白痴号码<input id="init_idiot"></div>
+        <button onclick="init_idiot_finish()">确认</button>
+    </div>
+    <div id="finish" style="Display:None">
+        <button onclick="finish()">结束今晚</button>
+    </div>
+</div>
+<div id="day" style="Display:None">
+    <div>出局玩家号码，请用小数点分隔<input id='vote'></div>
+    <button onclick="()">确认</button>
+</div>
+<div id="dead" style="Display:None">
+    <div id="dead_detail">
+        死讯
+    </div>
+    <div>发动技能带走玩家<input id="skill_kill"></div>
+    <button onclick="skill_kill()">确认</button>
+</div>
+</body>
+</html>

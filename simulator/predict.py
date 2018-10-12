@@ -113,6 +113,7 @@ if __name__ == "__main__":
         conv_rate_list = train_conversion(search_date - dt.timedelta(days=TRAIN_DURATION), search_date - dt.timedelta(days=1), real_df, meta_dict)
         orders, r = predict_order(search_date_str, search_list, category_distribution, class_distribution, airline_distribution, user_price, px_dict, conv_rate_list, meta_dict)
         simulate_orders[search_date_str] = orders
+        print orders
         search_date = search_date + dt.timedelta(days=1)
 
     simulate_df = pd.DataFrame(data=[[x, simulate_orders[x]] for x in simulate_orders], columns=["fdate", "predict"]).sort_values(by=['fdate'])

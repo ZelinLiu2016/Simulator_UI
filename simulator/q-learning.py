@@ -1,11 +1,9 @@
 import pandas as pd
-import numpy as np
 import random
-import time
 
 from conversion import train_conversion
 from datetime_utils import date2str
-from predict import get_price_data, predict_order, find_all_tickets
+from predict import get_price_data, predict_order
 from predict import get_search_data
 from user_airline import gen_weekday_airline_dtb
 from user_category import gen_weekday_category_dtb
