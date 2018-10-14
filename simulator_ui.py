@@ -14,7 +14,6 @@ from user_airline import gen_weekday_airline_dtb
 from utils import random_generate
 from user_category import gen_weekday_category_dtb
 from user_class import gen_weekday_class_dtb
-import matplotlib.pyplot as plt
 
 
 settings = {
@@ -29,9 +28,18 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class QueryHandler(tornado.web.RequestHandler):
     def post(self):
+        # response = {'status': 'success', 'data': [{'date': '2018-03-01', 'predict': 125, 'real': 122},
+        #                                {'date': '2018-03-02', 'predict': 129, 'real': 147},
+        #                                {'date': '2018-03-03', 'predict': 136, 'real': 120},
+        #                                {'date': '2018-03-04', 'predict': 118, 'real': 108},
+        #                                {'date': '2018-03-05', 'predict': 131, 'real': 122},
+        #                                {'date': '2018-03-06', 'predict': 108, 'real': 139}]}
+        # self.write(json.dumps(response))
+        r_df = pd.read_csv("data/search/order_qty_searchdate.csv")
         data = json.loads(self.request.body)
-        begin_date = dt.date(2018, 3, 1)
-        end_date = dt.date(2018, 3, 31)
+        begin_date = dt.datetime.strptime(data["start_date"], "%Y-%m-%d")
+        end_date = dt.datetime.strptime(data["end_date"], "%Y-%m-%d")
+        s_l = data["self_learn"]
         pre_begin_date = begin_date - dt.timedelta(days=TRAIN_DURATION)
         d = pre_begin_date
         while d < begin_date:
@@ -41,17 +49,20 @@ class QueryHandler(tornado.web.RequestHandler):
                           user_price, px_dict, conv_rate, meta_dict)
             d = d + dt.timedelta(days=1)
         search_date = begin_date
+        ret = []
         while search_date <= end_date:
-            print search_date
             search_date_str = date2str(search_date)
+            print search_date_str
             search_list = search_dict[search_date_str]
             conv_rate_list = train_conversion(search_date - dt.timedelta(days=TRAIN_DURATION),
-                                              search_date - dt.timedelta(days=1), real_df, meta_dict)
+                                              search_date - dt.timedelta(days=1), real_df, meta_dict, s_l)
             orders, r = predict_order(search_date_str, search_list, category_distribution, class_distribution,
                                       airline_distribution, user_price, px_dict, conv_rate_list, meta_dict)
             simulate_orders[search_date_str] = orders
-            print orders
+            ret.append({'date': search_date_str, 'predict': orders, 'real': int(r_df[r_df.fdate == search_date_str].iloc[0].order_cnt)})
             search_date = search_date + dt.timedelta(days=1)
+        response = {"status": "success", "data": ret}
+        self.write(json.dumps(response))
 
 
 handlers = [
@@ -132,5 +143,5 @@ if __name__ == "__main__":
     TRAIN_DURATION = 14
     print 'OK'
     app = tornado.web.Application(handlers, **settings)
-    app.listen(8000)
+    app.listen(8001)
     tornado.ioloop.IOLoop.instance().start()

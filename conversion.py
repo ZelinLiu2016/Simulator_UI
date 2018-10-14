@@ -2,7 +2,7 @@ from datetime_utils import date2str
 import datetime as dt
 
 
-def train_conversion(start_date, end_date, predict_df, history_data):
+def train_conversion(start_date, end_date, predict_df, history_data, self_learn=True):
     today = start_date
     conv_list = []
     while today <= end_date:
@@ -29,8 +29,10 @@ def train_conversion(start_date, end_date, predict_df, history_data):
     last_day_conv = predict / sum
 
     last_prop = 0.9
-    conv_rate = last_day_conv*last_prop + all_conv_rate * (1-last_prop)
-    conv_rate = 0.0041
+    if self_learn:
+        conv_rate = last_day_conv*last_prop + all_conv_rate * (1-last_prop)
+    else:
+        conv_rate = 0.0041
     conv_rate_list = [conv_rate*(1 - i / 180.0) for i in range(181)]
     return conv_rate_list
 
